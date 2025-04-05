@@ -1,6 +1,11 @@
 from flask import Flask, jsonify, render_template, request
 import sqlite3
 
+from flask_cors import CORS
+app = Flask(__name__)
+
+CORS(app)
+
 from db.db_operations import * 
 from db.db_queries import *
 
@@ -123,11 +128,41 @@ def add_section_api():
     except Exception as e:
         return jsonify({'error': str(e)})
 
+# API to get all registrations
+@app.route('/api/registrations', methods=['GET'])
+def get_all_registrations_api():
+    try:
+        registrations = get_all_registrations()
+        return jsonify([{'registration_id': r[0], 'student_id': r[1], 'section_id': r[2], 'grade': r[3]} for r in registrations])
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+
 
 # Route to render the index.html page
 @app.route('/')
 def index():
     return render_template('index.html')
 
+# Route to render the students.html page
+@app.route('/students')
+def students():
+    return render_template('students.html')
+
+# Route to render the courses.html page
+@app.route('/courses')
+def courses():
+    return render_template('courses.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
+
+# Route to render the sections.html page
+@app.route('/sections')
+def sections():
+    return render_template('sections.html')
+
+# Route to render the registration.html page
+@app.route('/registration')
+def registration():
+    return render_template('registration.html')

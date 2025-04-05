@@ -1,2 +1,25 @@
-<button onclick="addStudent()">Add Student</button>
-<button onclick="showAllStudents()">Show Students</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Registration System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('students') }}">Students</a></li>
+            <li><a href="{{ url_for('courses') }}">Courses</a></li>
+            <li><a href="{{ url_for('sections') }}">Sections</a></li>
+            <li><a href="{{ url_for('registration') }}">Registration</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <h1>Welcome to the University Registration System</h1>
+        <p>Use the navigation menu to manage students, courses, sections, and registrations.</p>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
