@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('students') }}">Students</a></li>
+            <li><a href="{{ url_for('courses') }}">Courses</a></li>
+            <li><a href="{{ url_for('sections') }}">Sections</a></li>
+            <li><a href="{{ url_for('registration') }}">Registration</a></li>
+        </ul>
+    </nav>
+
     <h2>Students</h2>
     <div id="addStudent">
         <h3>Add a Student</h3>
@@ -13,7 +23,7 @@
         <input type="text" id="studentID" placeholder="Student ID">
         <button onclick="addStudent()">Add</button>
     </div>
-    <div id="students-list">
+    <div id="allstudents">
         <p>Loading students...</p>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

@@ -6,14 +6,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('students') }}">Students</a></li>
+            <li><a href="{{ url_for('courses') }}">Courses</a></li>
+            <li><a href="{{ url_for('sections') }}">Sections</a></li>
+            <li><a href="{{ url_for('registration') }}">Registration</a></li>
+        </ul>
+    </nav>
+
     <h2>Courses</h2>
     <div id="addCourse">
         <h3>Add a Course</h3>
         <input type="text" id="courseName" placeholder="Course Name">
         <input type="text" id="courseID" placeholder="Course ID">
+        <input type="text" id="rubric" placeholder="Rubric">
+        <input type="number" id="courseNumber" placeholder="Course Number">
+        <input type="number" id="credits" placeholder="Credits">        
         <button onclick="addCourse()">Add</button>
     </div>
-    <div id="courses-list">
+    <div id="allcourses">
         <p>Loading courses...</p>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>

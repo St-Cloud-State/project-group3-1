@@ -83,7 +83,10 @@ def add_course_api():
         data = request.get_json()
         course_id = data.get('course_id')
         course_name = data.get('course_name')
-        success = create_course(course_id, course_name)
+        rubric = data.get('rubric')
+        course_number = data.get('course_number')
+        credits = data.get('credits')
+        success = create_course(course_id, course_name, rubric, course_number, credits)
         if success:
             return jsonify({'message': 'Course added successfully'})
         else:
