@@ -1,8 +1,8 @@
 -- Drop tables if they exist (in reverse order of creation to respect foreign key constraints)
--- DROP TABLE IF EXISTS Registration;
--- DROP TABLE IF EXISTS Section;
--- DROP TABLE IF EXISTS Course;
--- DROP TABLE IF EXISTS Student;
+DROP TABLE IF EXISTS Registration;
+DROP TABLE IF EXISTS Section;
+DROP TABLE IF EXISTS Course;
+DROP TABLE IF EXISTS Student;
 
 -- Create Student table
 CREATE TABLE Student (
