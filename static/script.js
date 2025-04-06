@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching sections:', error);
         });
 
-
 // Function to add a new student
 function addStudent() {
     const name = document.getElementById('studentName').value;
@@ -102,6 +101,7 @@ function addStudent() {
     });
 }
 
+// Function to add a new course
 function addCourse() {
     const course_name = document.getElementById('courseName').value;
     const course_id = document.getElementById('courseID').value;
@@ -136,8 +136,6 @@ function addCourse() {
         console.error('Error adding course:', error);
     });
 }
-
-
 
 // Function to add a new section
 function addSection() {
