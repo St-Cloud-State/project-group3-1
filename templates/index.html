@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Registration System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('students') }}">Students</a></li>
+            <li><a href="{{ url_for('courses') }}">Courses</a></li>
+            <li><a href="{{ url_for('sections') }}">Sections</a></li>
+            <li><a href="{{ url_for('registration') }}">Registration</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Welcome to the University Registration System</h1>
+        <p>Manage students, courses, sections, and registrations easily.</p>
+
+        <!-- Students Section -->
+        <div id="students">
+            <h2>Students</h2>
+            <div id="allstudents"></div>
+        </div>
+
+        <!-- Courses Section -->
+        <div id="courses">
+            <h2>Courses</h2>
+            <div id="allcourses"></div>
+        </div>
+    </div>
+</body>
+</html>
