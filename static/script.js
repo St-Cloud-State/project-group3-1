@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             let html = '<ul>';
             data.forEach(student => {
-                html += `<li>${student[1]} (ID: ${student[0]})</li>`;
+                html += `<li>${student[1]} (ID: ${student[0]}, Address: ${student[2] || 'N/A'})</li>`;
             });
             html += '</ul>';
             studentsList.innerHTML = html;
@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function addStudent() {
     const name = document.getElementById('studentName').value;
     const student_id = document.getElementById('studentID').value;
+    const address = document.getElementById('studentAddress').value;
     
     if (!name || !student_id) {
         alert('Please fill in all required fields');
@@ -88,7 +89,7 @@ function addStudent() {
         body: JSON.stringify({ 
             student_id, 
             name,
-            address: ""
+            address
         })
     })
     .then(response => response.json())

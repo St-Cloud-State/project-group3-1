@@ -59,7 +59,8 @@ def add_student_api():
         data = request.get_json()
         student_id = data.get('student_id')
         name = data.get('name')
-        success = create_student(student_id, name)
+        address = data.get('address')
+        success = create_student(student_id, name, address)
         if success:
             return jsonify({'message': 'Student added successfully'})
         else:
