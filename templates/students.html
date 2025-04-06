@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Students Page</h2>
+    <h2>Students</h2>
+    <div id="addStudent">
+        <h3>Add a Student</h3>
+        <input type="text" id="studentName" placeholder="Student Name">
+        <input type="text" id="studentID" placeholder="Student ID">
+        <button onclick="addStudent()">Add</button>
+    </div>
     <div id="students-list">
         <p>Loading students...</p>
     </div>

@@ -6,7 +6,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Courses Page</h2>
+    <h2>Courses</h2>
+    <div id="addCourse">
+        <h3>Add a Course</h3>
+        <input type="text" id="courseName" placeholder="Course Name">
+        <input type="text" id="courseID" placeholder="Course ID">
+        <button onclick="addCourse()">Add</button>
+    </div>
     <div id="courses-list">
         <p>Loading courses...</p>
     </div>

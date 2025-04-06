@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Registration</title>
+    <title>Registration</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Registration Page</h2>
+    <h2>Registration</h2>
+    <div id="addRegistration">
+        <h3>Add a Registration</h3>
+        <input type="text" id="studentID" placeholder="Student ID">
+        <input type="text" id="sectionID" placeholder="Section ID">
+        <input type="text" id="grade" placeholder="Grade">
+        <button onclick="addRegistration()">Add</button>
+    </div>
     <div id="registration-list">
         <p>Loading registrations...</p>
     </div>
