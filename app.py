@@ -68,6 +68,18 @@ def add_student_api():
     except Exception as e:
         return jsonify({'error': str(e)})
 
+# API to remove a student
+@app.route('/api/delete_student/<int:student_id>', methods=['DELETE'])
+def delete_student_api(student_id):
+    try:
+        success = delete_student(student_id)
+        if success:
+            return jsonify({'message': 'Student deleted successfully'})
+        else:
+            return jsonify({'error': 'Failed to delete student'})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 # API to get all courses
 @app.route('/api/courses', methods=['GET'])
 def get_all_courses_api():
@@ -92,6 +104,18 @@ def add_course_api():
             return jsonify({'message': 'Course added successfully'})
         else:
             return jsonify({'error': 'Failed to add course'})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+# API to remove a course
+@app.route('/api/delete_course/<course_id>', methods=['DELETE'])
+def delete_course_api(course_id):
+    try:
+        success = delete_course(course_id)
+        if success:
+            return jsonify({'message': 'Course deleted successfully'})
+        else:
+            return jsonify({'error': 'Failed to delete course'})
     except Exception as e:
         return jsonify({'error': str(e)})
 
@@ -120,6 +144,19 @@ def add_section_api():
             return jsonify({'error': 'Failed to add section'})
     except Exception as e:
         return jsonify({'error': str(e)})
+
+# API to remove a section
+@app.route('/api/delete_section/<int:section_id>', methods=['DELETE'])
+def delete_section_api(section_id):
+    try:
+        success = delete_section(section_id)
+        if success:
+            return jsonify({'message': 'Section deleted successfully'})
+        else:
+            return jsonify({'error': 'Failed to delete section'})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 
 # API to get all registrations
 @app.route('/api/registrations', methods=['GET'])
