@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching courses:', error);
         });
 
+    // Fetch and display all sections
     fetch('/api/sections')
         .then(response => response.json())
         .then(data => {
@@ -73,6 +74,31 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Error fetching sections:', error);
+        });
+
+    // Fetch and display all registrations
+    fetch('/api/registrations')
+        .then(response => response.json())
+        .then(data => {
+            const regList = document.getElementById('allregistrations');
+            if (!regList) return;
+
+            if (data.error) {
+                regList.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+            let html = '<ul>';
+            data.forEach(reg => {
+                html += `<li>
+                    Registration ${reg[0]} - Student ID: ${reg[1]}, Section ID: ${reg[2]}, Grade: ${reg[3] || 'N/A'}
+                    <button onclick="deleteRegistration(${reg[0]})" class="btn btn-primary">Delete</button>
+                </li>`;
+            });
+            html += '</ul>';
+            regList.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching registrations:', error);
         });
 });
 
@@ -263,3 +289,63 @@ function deleteSection(sectionId) {
         });
     }
 }
+
+// Function to add a registration
+function addRegistration() {
+    const registration_id = document.getElementById('regRegistrationID').value;
+    const student_id = document.getElementById('regStudentID').value;
+    const section_id = document.getElementById('regSectionID').value;
+    const grade = document.getElementById('regGrade').value;
+
+    console.log("Sending registration:", {
+        registration_id,
+        student_id,
+        section_id,
+        grade
+    });
+
+    if (!registration_id || !student_id || !section_id) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    fetch('/api/add_registration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            registration_id,
+            student_id,
+            section_id,
+            grade
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || data.error);
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error adding registration:', error);
+    });
+}
+
+// Function to delete a registration
+function deleteRegistration(registrationId) {
+    if (confirm("Are you sure you want to delete this registration?")) {
+        fetch(`/api/delete_registration/${registrationId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || data.error);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting registration:', error);
+            alert('Failed to delete registration');
+        });
+    }
+}
+

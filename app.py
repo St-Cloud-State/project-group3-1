@@ -172,16 +172,30 @@ def get_all_registrations_api():
 def add_registration_api():
     try:
         data = request.get_json()
+        registration_id = data.get('registration_id')
         student_id = data.get('student_id')
         section_id = data.get('section_id')
         grade = data.get('grade')
-        success = create_registration(student_id, section_id, grade)
+
+        success = create_registration(registration_id, student_id, section_id, grade)
         if success:
             return jsonify({'message': 'Registration added successfully'})
         else:
             return jsonify({'error': 'Failed to add registration'})
     except Exception as e:
         return jsonify({'error': str(e)})
+
+ # API to remove a registration
+@app.route('/api/delete_registration/<int:registration_id>', methods=['DELETE'])
+def delete_registration_api(registration_id):
+    try:
+        success = delete_registration(registration_id)
+        if success:
+            return jsonify({'message': 'Registration deleted successfully'})
+        else:
+            return jsonify({'error': 'Failed to delete registration'})
+    except Exception as e:
+        return jsonify({'error': str(e)})     
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

@@ -19,12 +19,13 @@
     <h2>Registration</h2>
     <div id="addRegistration">
         <h3>Add a Registration</h3>
-        <input type="text" id="studentID" placeholder="Student ID">
-        <input type="text" id="sectionID" placeholder="Section ID">
-        <input type="text" id="grade" placeholder="Grade">
+        <input type="text" id="regRegistrationID" placeholder="Registration ID">
+        <input type="text" id="regStudentID" placeholder="Student ID">
+        <input type="text" id="regSectionID" placeholder="Section ID">
+        <input type="text" id="regGrade" placeholder="Grade">              
         <button onclick="addRegistration()">Add</button>
     </div>
-    <div id="registration-list">
+    <div id="allregistrations">
         <p>Loading registrations...</p>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
