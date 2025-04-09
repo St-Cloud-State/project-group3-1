@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             let html = '<ul>';
             data.forEach(student => {
-                html += `<li>${student[1]} (ID: ${student[0]}, Address: ${student[2] || 'N/A'})</li>`;
+                html += `<li>
+                    ${student[1]} (ID: ${student[0]}, Address: ${student[2] || 'N/A'})
+                    <button onclick="deleteStudent(${student[0]})" class="btn btn-primary">Delete</button>
+                </li>`;
             });
             html += '</ul>';
             studentsList.innerHTML = html;
@@ -29,14 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             const coursesList = document.getElementById('allcourses');
             if (!coursesList) return;
-            
+
             if (data.error) {
                 coursesList.innerHTML = `<p>Error: ${data.error}</p>`;
                 return;
             }
             let html = '<ul>';
             data.forEach(course => {
-                html += `<li>${course[1]} (ID: ${course[0]}, Rubric: ${course[2]}, Number: ${course[3]}, Credits: ${course[4]})</li>`;
+                html += `<li>
+                    ${course[1]} (ID: ${course[0]}, Rubric: ${course[2]}, Number: ${course[3]}, Credits: ${course[4]})
+                    <button onclick="deleteCourse('${course[0]}')" class="btn btn-primary">Delete</button>
+                </li>`;
             });
             html += '</ul>';
             coursesList.innerHTML = html;
@@ -44,10 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error fetching courses:', error);
         });
-});
 
     // Fetch and display all sections
-        fetch('/api/sections')
+    fetch('/api/sections')
         .then(response => response.json())
         .then(data => {
             const sectionList = document.getElementById('allsections');
@@ -57,10 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 sectionList.innerHTML = `<p>Error: ${data.error}</p>`;
                 return;
             }
-
             let html = '<ul>';
             data.forEach(section => {
-                html += `<li>Section ${section[0]} - Course: ${section[1]}, ${section[2]} ${section[3]}</li>`;
+                html += `<li>
+                    Section ${section[0]} - Course: ${section[1]}, ${section[2]} ${section[3]}
+                    <button onclick="deleteSection(${section[0]})" class="btn btn-primary">Delete</button>
+                </li>`;
             });
             html += '</ul>';
             sectionList.innerHTML = html;
@@ -69,6 +76,31 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error fetching sections:', error);
         });
 
+    // Fetch and display all registrations
+    fetch('/api/registrations')
+        .then(response => response.json())
+        .then(data => {
+            const regList = document.getElementById('allregistrations');
+            if (!regList) return;
+
+            if (data.error) {
+                regList.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+            let html = '<ul>';
+            data.forEach(reg => {
+                html += `<li>
+                    Registration ${reg[0]} - Student ID: ${reg[1]}, Section ID: ${reg[2]}, Grade: ${reg[3] || 'N/A'}
+                    <button onclick="deleteRegistration(${reg[0]})" class="btn btn-primary">Delete</button>
+                </li>`;
+            });
+            html += '</ul>';
+            regList.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching registrations:', error);
+        });
+});
 
 // Function to add a new student
 function addStudent() {
@@ -102,6 +134,57 @@ function addStudent() {
     });
 }
 
+// Function to add a new student
+function addStudent() {
+    const name = document.getElementById('studentName').value;
+    const student_id = document.getElementById('studentID').value;
+    const address = document.getElementById('studentAddress').value;
+    
+    if (!name || !student_id) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    fetch('/api/add_student', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            student_id, 
+            name,
+            address
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || data.error);
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error adding student:', error);
+    });
+}
+
+// Function to delete a student
+function deleteStudent(studentId) {
+    if (confirm("Are you sure you want to delete this student?")) {
+        fetch(`/api/delete_student/${studentId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || data.error);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting student:', error);
+            alert('Failed to delete student');
+        });
+    }
+}
+
+// Function to add a new course
 function addCourse() {
     const course_name = document.getElementById('courseName').value;
     const course_id = document.getElementById('courseID').value;
@@ -137,7 +220,23 @@ function addCourse() {
     });
 }
 
-
+// Function to delete a course
+function deleteCourse(courseId) {
+    if (confirm("Are you sure you want to delete this course?")) {
+        fetch(`/api/delete_course/${courseId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || data.error);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting course:', error);
+            alert('Failed to delete course');
+        });
+    }
+}
 
 // Function to add a new section
 function addSection() {
@@ -172,3 +271,81 @@ function addSection() {
         console.error('Error adding section:', error);
     });
 }
+
+// Function to delete a section
+function deleteSection(sectionId) {
+    if (confirm("Are you sure you want to delete this section?")) {
+        fetch(`/api/delete_section/${sectionId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || data.error);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting section:', error);
+            alert('Failed to delete section');
+        });
+    }
+}
+
+// Function to add a registration
+function addRegistration() {
+    const registration_id = document.getElementById('regRegistrationID').value;
+    const student_id = document.getElementById('regStudentID').value;
+    const section_id = document.getElementById('regSectionID').value;
+    const grade = document.getElementById('regGrade').value;
+
+    console.log("Sending registration:", {
+        registration_id,
+        student_id,
+        section_id,
+        grade
+    });
+
+    if (!registration_id || !student_id || !section_id) {
+        alert('Please fill in all required fields');
+        return;
+    }
+
+    fetch('/api/add_registration', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+            registration_id,
+            student_id,
+            section_id,
+            grade
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message || data.error);
+        location.reload();
+    })
+    .catch(error => {
+        console.error('Error adding registration:', error);
+    });
+}
+
+// Function to delete a registration
+function deleteRegistration(registrationId) {
+    if (confirm("Are you sure you want to delete this registration?")) {
+        fetch(`/api/delete_registration/${registrationId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message || data.error);
+            location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting registration:', error);
+            alert('Failed to delete registration');
+        });
+    }
+}
+
