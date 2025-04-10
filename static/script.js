@@ -349,3 +349,76 @@ function deleteRegistration(registrationId) {
     }
 }
 
+// Function for students in a section
+function showStudentsInSection() {
+    const sectionId = document.getElementById('sectionIdForStudents').value;
+    
+    if (!sectionId) {
+        alert('Please enter a section ID');
+        return;
+    }
+    
+    fetch(`/api/sections/${sectionId}/students`)
+        .then(response => response.json())
+        .then(data => {
+            const studentsInSectionDiv = document.getElementById('studentsInSection');
+            if (!studentsInSectionDiv) return;
+            
+            if (data.error) {
+                studentsInSectionDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+        
+            if (data.length === 0) {
+                studentsInSectionDiv.innerHTML = `<p>No students found in section ${sectionId}</p>`;
+                return;
+            }
+            let html = `<h3>Students in Section ${sectionId}</h3><ul>`;
+            data.forEach(student => {
+                const grade = student.Grade ? student.Grade : 'No grade';
+                html += `<li>${student.Name} (ID: ${student.StudentID}) - Grade: ${grade}</li>`;
+            });
+            html += '</ul>';
+            studentsInSectionDiv.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching students in section:', error);
+        });
+}
+
+// Function for coures taken by a student
+function showStudentCourses() {
+    const studentId = document.getElementById('studentIdForCourses').value;
+    
+    if (!studentId) {
+        alert('Please enter a student ID');
+        return;
+    }
+    
+    fetch(`/api/students/${studentId}/courses`)
+        .then(response => response.json())
+        .then(data => {
+            const studentCoursesDiv = document.getElementById('studentCourses');
+            if (!studentCoursesDiv) return;
+            
+            if (data.error) {
+                studentCoursesDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+            
+            if (data.length === 0) {
+                studentCoursesDiv.innerHTML = `<p>No courses found for student ${studentId}</p>`;
+                return;
+            }
+            let html = `<h3>Courses taken by Student ${studentId}</h3><ul>`;
+            data.forEach(course => {
+                const grade = course.Grade ? course.Grade : 'No grade';
+                html += `<li>${course.Rubric} ${course.CourseNumber}: ${course.CourseName} (${course.Semester} ${course.Year}) - Grade: ${grade}</li>`;
+            });
+            html += '</ul>';
+            studentCoursesDiv.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Error fetching student courses:', error);
+        });
+}

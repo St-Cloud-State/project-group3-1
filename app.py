@@ -5,6 +5,7 @@ import sqlite3
 # Importing functions from separate modules
 from db.db_operations import *
 from db.db_queries import *
+from db.db_advanced_queries import *
 
 app = Flask(__name__)
 CORS(app)
@@ -196,6 +197,24 @@ def delete_registration_api(registration_id):
             return jsonify({'error': 'Failed to delete registration'})
     except Exception as e:
         return jsonify({'error': str(e)})     
+
+# API to get all students in a section
+@app.route('/api/sections/<int:section_id>/students', methods=['GET'])
+def get_students_in_section_api(section_id):
+    try:
+        students = get_students_in_section(section_id)
+        return jsonify(students)
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+# API to get all courses taken by a student
+@app.route('/api/students/<int:student_id>/courses', methods=['GET'])
+def get_courses_for_student_api(student_id):
+    try:
+        courses = get_courses_for_student(student_id)
+        return jsonify(courses)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
