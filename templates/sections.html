@@ -29,5 +29,11 @@
         <p>Loading sections...</p>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div class="query-section">
+        <h3>Find Students in a Section</h3>
+        <input type="text" id="sectionIdForStudents" placeholder="Section ID">
+        <button onclick="showStudentsInSection()">Show Students</button>
+        <div id="studentsInSection"></div>
+    </div>
 </body>
 </html>
