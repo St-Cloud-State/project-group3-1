@@ -295,14 +295,8 @@ function addRegistration() {
     const registration_id = document.getElementById('regRegistrationID').value;
     const student_id = document.getElementById('regStudentID').value;
     const section_id = document.getElementById('regSectionID').value;
-    const grade = document.getElementById('regGrade').value;
-
-    console.log("Sending registration:", {
-        registration_id,
-        student_id,
-        section_id,
-        grade
-    });
+    const gradeInput = document.getElementById('regGrade').value;
+    const grade = letterToGrade(gradeInput);
 
     if (!registration_id || !student_id || !section_id) {
         alert('Please fill in all required fields');
@@ -424,7 +418,8 @@ function showStudentCourses() {
 }
 
 
-// Function for converting a number grade to a letter grade
+// Function for converting a number grade to a letter grade and vice versa
+
 function gradeToLetter(grade) {
     if (grade === null || grade === undefined) return 'N/A';
     grade = parseFloat(grade);
@@ -439,4 +434,25 @@ function gradeToLetter(grade) {
     if (grade >= 1.3) return 'D+';
     if (grade >= 1.0) return 'D';
     return 'F';
+}
+
+function letterToGrade(letter) {
+    if (!letter || typeof letter !== 'string') return null;
+    letter = letter.toUpperCase().trim();
+    switch (letter) {
+        case 'A': return 4.0;
+        case 'A-': return 3.7;
+        case 'B+': return 3.3;
+        case 'B': return 3.0;
+        case 'B-': return 2.7;
+        case 'C+': return 2.3;
+        case 'C': return 2.0;
+        case 'C-': return 1.7;
+        case 'D+': return 1.3;
+        case 'D': return 1.0;
+        case 'F': return 0.0;
+        default: 
+            const num = parseFloat(letter);
+            return isNaN(num) ? null : num;
+    }
 }
