@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let html = '<ul>';
             data.forEach(reg => {
                 html += `<li>
-                    Registration ${reg[0]} - Student ID: ${reg[1]}, Section ID: ${reg[2]}, Grade: ${reg[3] || 'N/A'}
+                    Registration ${reg[0]} - Student ID: ${reg[1]}, Section ID: ${reg[2]}, Grade: ${gradeToLetter(reg[3])}
                     <button onclick="deleteRegistration(${reg[0]})" class="btn btn-primary">Delete</button>
                 </li>`;
             });
@@ -412,8 +412,8 @@ function showStudentCourses() {
             }
             let html = `<h3>Courses taken by Student ${studentId}</h3><ul>`;
             data.forEach(course => {
-                const grade = course.Grade ? course.Grade : 'No grade';
-                html += `<li>${course.Rubric} ${course.CourseNumber}: ${course.CourseName} (${course.Semester} ${course.Year}) - Grade: ${grade}</li>`;
+                const letterGrade = gradeToLetter(course.Grade);
+                html += `<li>${course.Rubric} ${course.CourseNumber}: ${course.CourseName} (${course.Semester} ${course.Year}) - Grade: ${letterGrade}</li>`;
             });
             html += '</ul>';
             studentCoursesDiv.innerHTML = html;
@@ -421,4 +421,22 @@ function showStudentCourses() {
         .catch(error => {
             console.error('Error fetching student courses:', error);
         });
+}
+
+
+// Function for converting a number grade to a letter grade
+function gradeToLetter(grade) {
+    if (grade === null || grade === undefined) return 'N/A';
+    grade = parseFloat(grade);
+    if (grade >= 4.0) return 'A';
+    if (grade >= 3.7) return 'A-';
+    if (grade >= 3.3) return 'B+';
+    if (grade >= 3.0) return 'B';
+    if (grade >= 2.7) return 'B-';
+    if (grade >= 2.3) return 'C+';
+    if (grade >= 2.0) return 'C';
+    if (grade >= 1.7) return 'C-';
+    if (grade >= 1.3) return 'D+';
+    if (grade >= 1.0) return 'D';
+    return 'F';
 }
